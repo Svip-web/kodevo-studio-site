@@ -3756,6 +3756,10 @@ dialog::backdrop{
 .real-case-private{
   cursor:default
 }
+.real-case-private .real-case-copy h3{
+  font-size:clamp(38px,3.6vw,58px);
+  overflow-wrap:anywhere
+}
 .real-case-preview i{
   background:#8d79ff;
   box-shadow:0 0 0 5px #8d79ff1c,0 0 14px #8d79ff

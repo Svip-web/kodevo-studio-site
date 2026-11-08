@@ -1147,6 +1147,65 @@ p{
   font-weight:700;
   font-size:11px
 }
+.real-case-metrics{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  margin:0 0 28px;
+  padding:18px 0;
+  border-block:1px solid #ffffff14
+}
+.real-case-metrics>div{
+  min-width:0;
+  padding:0 10px;
+  border-left:1px solid #ffffff14
+}
+.real-case-metrics>div:first-child{
+  border-left:0
+}
+.real-case-metrics dt{
+  color:#f7f7f4;
+  font:600 clamp(23px,1.8vw,32px)/1 var(--display);
+  letter-spacing:-.035em;
+  text-align:center
+}
+.real-case-metrics dd{
+  margin-top:7px;
+  color:#8490a4;
+  font-size:14px;
+  line-height:1.3;
+  text-align:center
+}
+.real-case-compact .real-case-metrics{
+  margin-bottom:22px;
+  padding:15px 0
+}
+.real-case-compact .real-case-metrics>div{
+  padding-inline:11px
+}
+.real-case-compact .real-case-metrics>div:first-child{
+  padding-left:11px
+}
+@media(max-width:1300px) and (min-width:651px){
+  .real-case-private .real-case-copy h3{
+    font-size:38px;
+    overflow-wrap:normal
+  }
+}
+.real-case-compact .real-case-metrics dt{
+  font-size:clamp(23px,2vw,32px)
+}
+@media(max-width:650px){
+  .real-case-metrics{
+    gap:0;
+    margin-bottom:22px
+  }
+  .real-case-metrics>div{
+    padding-inline:9px
+  }
+  .real-case-metrics dd{
+    font-size:12px
+  }
+}
 .real-case-cta .arrow-icon{
   color:#ffb65f;
   transition:transform .3s

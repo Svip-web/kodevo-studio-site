@@ -3804,7 +3804,31 @@ dialog::backdrop{
 }
 .case-slider-controls{
   display:flex;
+  align-items:center;
   gap:10px
+}
+.case-slider-pagination{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-right:8px
+}
+.case-slider-dot{
+  width:7px;
+  height:7px;
+  padding:0;
+  border:0;
+  border-radius:999px;
+  background:#ffffff38;
+  transition:width .3s,background .3s,transform .3s
+}
+.case-slider-dot:hover,.case-slider-dot:focus-visible{
+  background:#ffffff8a;
+  transform:scale(1.12)
+}
+.case-slider-dot.is-active{
+  width:25px;
+  background:#2f67ff
 }
 .case-slider-button{
   width:48px;
@@ -3851,6 +3875,13 @@ dialog::backdrop{
   height:100%;
   scroll-snap-align:start;
   scroll-snap-stop:always
+}
+.case-slider .real-case-media:after{
+  display:none
+}
+.case-slider .real-case-media>img,
+.case-slider .real-case:hover .real-case-media>img{
+  filter:none
 }
 .case-slider .real-case-copy{
   min-height:380px

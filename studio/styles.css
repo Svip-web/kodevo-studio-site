@@ -3269,6 +3269,38 @@ dialog::backdrop{
     font-size:12px
   }
 }
+
+/* Hero artwork runs cleanly from the header rule to the platform rule. */
+.site-stream-fade{
+  display:none!important;
+  background:none!important
+}
+.hero-site-stream,
+.site-stream-column,
+.site-stream-track{
+  -webkit-mask-image:none!important;
+  mask-image:none!important
+}
+.site-stream-track img{
+  filter:none!important;
+  opacity:1
+}
+@media(min-width:651px){
+  .hero{
+    padding-top:0;
+    padding-bottom:0
+  }
+  .hero-copy{
+    padding-block:92px 70px
+  }
+  .hero-site-stream{
+    align-self:stretch;
+    height:auto;
+    min-height:700px;
+    border-block:0;
+    border-inline:1px solid var(--border)
+  }
+}
 .contact-estimate{
   padding:14px 16px;
   border:1px solid #3673ff50;

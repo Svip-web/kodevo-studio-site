@@ -196,12 +196,55 @@
     openDialog(projectDialog);
   }));
   $$('[data-case-link]').forEach(link => link.addEventListener('click', () => {
-    trackEvent('portfolio_case_click', {
+    track('portfolio_case_click', {
       case_name: link.dataset.caseLink,
       destination: link.href,
     });
   }));
   $$('.privacy-trigger').forEach(button => button.addEventListener('click', () => openDialog(privacyDialog)));
+  const cookieDialog = $('#cookie-dialog');
+  const cookieBanner = $('#cookie-banner');
+  const cookieConsentKey = 'vp-agency-cookie-consent-v1';
+  const readCookieConsent = () => {
+    try {
+      const value = JSON.parse(localStorage.getItem(cookieConsentKey));
+      return value && typeof value.analytics === 'boolean' && typeof value.marketing === 'boolean' ? value : null;
+    } catch { return null; }
+  };
+  const applyCookieConsent = (consent, announce = false) => {
+    window.vpCookieConsent = consent;
+    document.documentElement.dataset.cookieConsent = consent.analytics || consent.marketing ? 'custom' : 'essential';
+    window.dispatchEvent(new CustomEvent('vp:cookie-consent', { detail: consent }));
+    if (announce) track('cookie_consent_update', { analytics: consent.analytics, marketing: consent.marketing });
+  };
+  const saveCookieConsent = consent => {
+    const value = { ...consent, updatedAt: new Date().toISOString() };
+    try { localStorage.setItem(cookieConsentKey, JSON.stringify(value)); } catch { /* Choice still applies for this page view. */ }
+    applyCookieConsent(value, true);
+    document.body.classList.remove('cookie-choice-pending');
+    cookieBanner.hidden = true;
+    if (cookieDialog.open) cookieDialog.close();
+  };
+  const syncCookieControls = () => {
+    const consent = readCookieConsent() || { analytics: false, marketing: false };
+    $('#cookie-analytics').checked = consent.analytics;
+    $('#cookie-marketing').checked = consent.marketing;
+  };
+  const savedCookieConsent = readCookieConsent();
+  if (savedCookieConsent) applyCookieConsent(savedCookieConsent);
+  else {
+    document.body.classList.add('cookie-choice-pending');
+    cookieBanner.hidden = false;
+  }
+  $$('.cookie-trigger').forEach(button => button.addEventListener('click', () => {
+    syncCookieControls();
+    openDialog(cookieDialog);
+  }));
+  $$('[data-cookie-choice]').forEach(button => button.addEventListener('click', () => {
+    if (button.dataset.cookieChoice === 'all') saveCookieConsent({ analytics: true, marketing: true });
+    else if (button.dataset.cookieChoice === 'essential') saveCookieConsent({ analytics: false, marketing: false });
+    else saveCookieConsent({ analytics: $('#cookie-analytics').checked, marketing: $('#cookie-marketing').checked });
+  }));
   $$('dialog').forEach(dialog => {
     $('.dialog-close', dialog).addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', event => {

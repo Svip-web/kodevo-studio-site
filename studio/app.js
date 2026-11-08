@@ -24,7 +24,7 @@
   contactEstimate.setAttribute('aria-live', 'polite');
   $('.form-heading', form).after(contactEstimate);
   const estimator = $('#estimate-form');
-  const prices = { landing: 200, corporate: 500, shop: 800 };
+  const prices = { landing: 190, corporate: 490, shop: 790 };
   const extras = {
     language: { price: 100, label: 'Друга мова' },
     integration: { price: 150, label: 'Додаткова інтеграція' },

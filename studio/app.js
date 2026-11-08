@@ -37,11 +37,6 @@
     const trackElement = $('.case-slider-track', slider);
     const slides = $$('.real-case', trackElement);
     const buttons = $$('[data-slider-direction]', slider);
-    const controls = $('.case-slider-controls', slider);
-    const pagination = document.createElement('div');
-    pagination.className = 'case-slider-pagination';
-    pagination.setAttribute('aria-label', 'Сторінки слайдера');
-    controls.prepend(pagination);
     const getGap = () => parseFloat(getComputedStyle(trackElement).columnGap || getComputedStyle(trackElement).gap) || 0;
     const getStep = () => (slides[0]?.getBoundingClientRect().width || viewport.clientWidth) + getGap();
     const getVisibleCount = () => Math.max(1, Math.round((viewport.clientWidth + getGap()) / getStep()));
@@ -51,31 +46,12 @@
       left: Math.min(page, getPageCount() - 1) * getStep() * getVisibleCount(),
       behavior: motion.matches ? 'auto' : 'smooth'
     });
-    const renderPagination = () => {
-      const count = getPageCount();
-      if (pagination.children.length !== count) {
-        pagination.replaceChildren(...Array.from({ length: count }, (_, index) => {
-          const dot = document.createElement('button');
-          dot.type = 'button';
-          dot.className = 'case-slider-dot';
-          dot.setAttribute('aria-label', `Перейти до сторінки ${index + 1}`);
-          dot.addEventListener('click', () => goToPage(index));
-          return dot;
-        }));
-      }
-      [...pagination.children].forEach((dot, index) => {
-        const active = index === getCurrentPage();
-        dot.classList.toggle('is-active', active);
-        dot.setAttribute('aria-current', active ? 'true' : 'false');
-      });
-    };
     const updateControls = () => {
       const max = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
       buttons.forEach(button => {
         const direction = Number(button.dataset.sliderDirection);
         button.disabled = direction < 0 ? viewport.scrollLeft <= 2 : viewport.scrollLeft >= max - 2;
       });
-      renderPagination();
     };
     buttons.forEach(button => button.addEventListener('click', () => {
       const direction = Number(button.dataset.sliderDirection);

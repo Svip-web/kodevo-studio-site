@@ -3871,29 +3871,6 @@ dialog::backdrop{
   align-items:center;
   gap:10px
 }
-.case-slider-pagination{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  margin-right:8px
-}
-.case-slider-dot{
-  width:7px;
-  height:7px;
-  padding:0;
-  border:0;
-  border-radius:999px;
-  background:#ffffff38;
-  transition:width .3s,background .3s,transform .3s
-}
-.case-slider-dot:hover,.case-slider-dot:focus-visible{
-  background:#ffffff8a;
-  transform:scale(1.12)
-}
-.case-slider-dot.is-active{
-  width:25px;
-  background:#2f67ff
-}
 .case-slider-button{
   width:48px;
   height:48px;
@@ -5095,4 +5072,108 @@ dialog::backdrop{
 @media(max-width:650px){
   .freelance-proof-shot{height:300px;margin:12px}
   .freelance-proof-shot img{width:100%;transform:none}
+}
+
+/* Balanced statement composition */
+.statement{
+  min-height:720px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 300px;
+  grid-template-areas:
+    "eyebrow cta"
+    "title cta"
+    "copy cta";
+  align-content:center;
+  align-items:center;
+  column-gap:clamp(60px,8vw,150px);
+  row-gap:20px;
+  padding-block:90px
+}
+.statement>.eyebrow{
+  grid-area:eyebrow;
+  align-self:end;
+  margin:0
+}
+.statement>h2{
+  grid-area:title;
+  max-width:1050px;
+  margin:12px 0 8px;
+  font-size:clamp(48px,5vw,86px);
+  line-height:1.12
+}
+.statement-footer{
+  display:contents
+}
+.statement-footer>p{
+  grid-area:copy;
+  align-self:start;
+  max-width:620px;
+  margin:0;
+  line-height:1.65
+}
+.statement-footer>.button{
+  grid-area:cta;
+  align-self:center;
+  justify-self:end
+}
+@media(max-width:900px){
+  .statement{
+    min-height:0;
+    display:block;
+    padding-block:64px
+  }
+  .statement>h2{
+    margin:24px 0 34px;
+    font-size:clamp(38px,8vw,68px)
+  }
+  .statement-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:32px
+  }
+  .statement-footer>p{
+    max-width:480px
+  }
+  .statement-footer>.button{
+    width:210px;
+    height:210px;
+    min-height:210px;
+    flex-basis:210px
+  }
+}
+@media(max-width:650px){
+  .statement-footer{
+    flex-direction:column;
+    align-items:flex-start
+  }
+  .statement-footer>.button{
+    width:180px;
+    height:180px;
+    min-height:180px;
+    flex-basis:180px;
+    align-self:flex-end
+  }
+}
+
+/* Keep each repeated marquee set taller than the hero viewport. */
+.site-stream-track figure{
+  flex-basis:230px
+}
+@media(max-width:650px){
+  .site-stream-track figure{
+    flex-basis:145px
+  }
+}
+@media(min-width:651px){
+  .hero{
+    height:calc(100svh - 92px);
+    min-height:680px;
+    max-height:900px
+  }
+  .hero-site-stream{
+    height:100%!important;
+    min-height:0!important;
+    align-self:stretch
+  }
 }

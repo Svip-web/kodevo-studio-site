@@ -5,6 +5,18 @@
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const track = (event, parameters = {}) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event, ...parameters });
+  };
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a,button');
+    if (!link) return;
+    if (link.dataset.track) track(link.dataset.track, { link_text: link.textContent.trim().slice(0, 120), link_url: link.href || '' });
+    else if (link.matches('a[href="#contact"]')) track('contact_cta_click', { link_text: link.textContent.trim().slice(0, 120) });
+    else if (link.matches('a[href^="tel:"]')) track('phone_click', { link_url: link.href });
+    else if (link.matches('a[href*="t.me/"]')) track('telegram_click', { link_url: link.href });
+  });
   const form = $('#contact-form');
   const contactEstimate = document.createElement('p');
   contactEstimate.className = 'contact-estimate';
@@ -163,7 +175,7 @@
 
   const projects = {
     forma: { title: 'FORMA — простір відчуттів', service: 'corporate', description: 'Концепт сайту архітектурного бюро. Тепла палітра, виразна композиція та великі візуальні акценти. Такий напрям підходить бізнесу, де важливі естетика, довіра й увага до деталей.' },
-    riva: { title: 'RIVA — краса щодня', service: 'shop', description: 'Концепт магазину предметів інтер’єру. Спокійні кольори, чиста типографіка й акцент на продукті. Для справжнього магазину доповнимо цей напрям каталогом, картками товарів та зручним оформленням замовлення.' },
+    riva: { title: 'RIVA — краса щодня', service: 'shop', description: 'Концепт магазину предметів інтер’єру. Спокійні кольори, чиста типографіка й акцент на продукті. Для справжнього магазину я доповню цей напрям каталогом, картками товарів та зручним оформленням замовлення.' },
     move: { title: 'MOVE — енергія в русі', service: 'landing', description: 'Концепт лендінгу фітнес-студії. Контрастна палітра, смілива типографіка й відчуття руху. Цей візуальний напрям можна адаптувати для спортивного бренду, події або запуску нового продукту.' },
   };
   let selectedProject;
@@ -205,10 +217,11 @@
   contactInput.addEventListener('input', () => contactInput.setCustomValidity(''));
   form.addEventListener('submit', async event => {
     event.preventDefault();
+    track('lead_submit_attempt', { service: form.elements.service.value });
     if (location.hostname.endsWith('.github.io')) {
       const status = $('.form-status', form);
       status.className = 'form-status error';
-      status.textContent = 'Форма ще не підключена до пошти або Telegram. Дані не надіслано — канал зв’язку додамо окремо.';
+      status.textContent = 'Форма ще очікує захищений серверний канал Telegram. Дані не надіслано.';
       return;
     }
     const contact = contactInput.value.trim();
@@ -239,7 +252,8 @@
       const result = await response.json();
       if (!response.ok || !result.ok) throw new Error(result.error || 'Не вдалося зберегти запит. Спробуйте ще раз.');
       status.className = 'form-status success';
-      status.textContent = 'Готово! Ваш запит збережено в локальній версії сайту. Надсилання в Telegram або на пошту ще не підключене.';
+      status.textContent = 'Готово! Заявку надіслано в Telegram. Я зв’яжуся з вами за вказаним контактом.';
+      track('generate_lead', { service: payload.service, estimate: payload.estimate || '' });
       form.reset();
       form.elements.estimate.value = '';
       contactEstimate.hidden = true;

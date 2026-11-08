@@ -195,6 +195,12 @@
     $('#dialog-preview').replaceChildren(preview);
     openDialog(projectDialog);
   }));
+  $$('[data-case-link]').forEach(link => link.addEventListener('click', () => {
+    trackEvent('portfolio_case_click', {
+      case_name: link.dataset.caseLink,
+      destination: link.href,
+    });
+  }));
   $$('.privacy-trigger').forEach(button => button.addEventListener('click', () => openDialog(privacyDialog)));
   $$('dialog').forEach(dialog => {
     $('.dialog-close', dialog).addEventListener('click', () => dialog.close());

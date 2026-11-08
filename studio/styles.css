@@ -3784,6 +3784,75 @@ dialog::backdrop{
   font-size:9px;
   letter-spacing:.04em
 }
+.case-slider{
+  margin-bottom:8px
+}
+.case-slider-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:24px
+}
+.case-slider-head .eyebrow{
+  color:#8e98aa
+}
+.case-slider-controls{
+  display:flex;
+  gap:10px
+}
+.case-slider-button{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border:1px solid #ffffff25;
+  border-radius:50%;
+  color:#fff;
+  background:#11141a;
+  transition:border-color .25s,background .25s,transform .25s
+}
+.case-slider-button:hover:not(:disabled),.case-slider-button:focus-visible{
+  border-color:#6190ff;
+  background:#285fe2;
+  transform:translateY(-2px)
+}
+.case-slider-button:disabled{
+  opacity:.3;
+  cursor:not-allowed
+}
+.case-slider-button .arrow-icon{
+  font-size:20px
+}
+.case-slider-prev .arrow-icon{
+  transform:rotate(180deg)
+}
+.case-slider-viewport{
+  overflow-x:auto;
+  overscroll-behavior-inline:contain;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none
+}
+.case-slider-viewport::-webkit-scrollbar{
+  display:none
+}
+.case-slider-track{
+  display:grid;
+  grid-auto-flow:column;
+  grid-auto-columns:calc((100% - 28px)/2);
+  gap:28px
+}
+.case-slider .real-case-compact{
+  height:100%;
+  scroll-snap-align:start;
+  scroll-snap-stop:always
+}
+.case-slider .real-case-copy{
+  min-height:380px
+}
+.case-slider .real-case-copy .real-case-lead{
+  min-height:70px
+}
 
 /* Privacy and cookie controls */
 .footer-legal{
@@ -4007,6 +4076,20 @@ dialog::backdrop{
     width:100%;
     justify-content:space-between
   }
+  .case-slider-track{
+    grid-auto-columns:100%;
+    gap:14px
+  }
+  .case-slider-button{
+    width:44px;
+    height:44px
+  }
+  .case-slider .real-case-copy{
+    min-height:0
+  }
+  .case-slider .real-case-copy .real-case-lead{
+    min-height:0
+  }
 }
 
 /* Verified social proof */
@@ -4181,6 +4264,61 @@ dialog::backdrop{
   font-size:8px;
   letter-spacing:.07em
 }
+.freelance-proof{
+  position:relative;
+  z-index:1;
+  margin:0;
+  overflow:hidden;
+  border:1px solid #ffffff20;
+  border-radius:12px;
+  background:#10141b;
+  box-shadow:0 30px 100px #0008
+}
+.freelance-proof-bar,.freelance-proof figcaption{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  min-height:58px;
+  padding:14px 22px;
+  color:#cbd2df;
+  background:#11161e;
+  font-size:14px;
+  letter-spacing:.035em
+}
+.freelance-proof-bar span{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+.freelance-proof-bar i{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#2fc784;
+  box-shadow:0 0 0 5px #2fc78417,0 0 14px #2fc784
+}
+.freelance-proof-bar strong{
+  color:#7fa2ff;
+  font-size:14px
+}
+.freelance-proof img{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:1265/712;
+  object-fit:cover;
+  object-position:top
+}
+.freelance-proof figcaption{
+  min-height:54px;
+  color:#8f99aa;
+  border-top:1px solid #ffffff16
+}
+.freelance-proof figcaption span:last-child{
+  color:#d8deea;
+  text-align:right
+}
 @media(max-width:900px){
   .trust-proof-head{
     grid-template-columns:1fr
@@ -4247,5 +4385,59 @@ dialog::backdrop{
   }
   .trust-source{
     line-height:1.7
+  }
+  .freelance-proof-bar,.freelance-proof figcaption{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:8px;
+    padding:15px
+  }
+  .freelance-proof-bar strong,.freelance-proof figcaption span:last-child{
+    text-align:left
+  }
+  .freelance-proof img{
+    aspect-ratio:4/3
+  }
+}
+
+/* Keep every functional and editorial label readable. Decorative type inside
+   the portfolio mockups is intentionally excluded because it is part of the artwork. */
+.desktop-nav,.header-cta,.eyebrow,.section-label,.hero-footnote,
+.hero-bottom,.price-top,.price-platforms,.price-caption,.pricing-note,
+.price-for,.price-card li,.price-card .button,.price-top .price-badge,
+.calculator-note p,.estimator legend,.extras label,.extras small,
+.choice-grid label>span,.item-index,.step-output,.estimate-result>div>span,
+.work-note,.project-meta>span,.project-tag,.process-intro .text-link,
+.telegram-addon .text-link,.contact-estimate,.contact-form>label,
+.contact-form .consent,.form-status,.estimate-disclaimer,
+.footer-top p,.footer-bottom,.footer-legal button,
+.automation-number,.automation-tech,.automation-flow,
+.real-case-live,.real-case-browser,.real-case-copy .eyebrow,
+.real-case-copy>p,.real-case-features li,.real-case-cta,
+.legal-dialog .legal-intro,.legal-dialog section h3,
+.legal-dialog section p,.legal-note,.cookie-option h3,.cookie-option p,
+.cookie-required,.cookie-banner .eyebrow,.cookie-banner p:last-child,
+.cookie-banner-actions .button,.cookie-text-button,
+.trust-proof-head>p,.trust-score p,.trust-metrics dd,
+.review-score,.review-card footer,.trust-source{
+  font-size:14px!important
+}
+
+.real-case-features{
+  gap:10px 12px
+}
+.real-case-features li{
+  min-height:34px;
+  padding:8px 13px;
+  line-height:1.25
+}
+
+@media(max-width:650px){
+  .real-case-features{
+    gap:9px
+  }
+  .real-case-features li{
+    min-height:36px;
+    padding:9px 12px
   }
 }

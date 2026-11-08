@@ -32,6 +32,31 @@
   };
   $('#year').textContent = new Date().getFullYear();
 
+  $$('[data-case-slider]').forEach(slider => {
+    const viewport = $('.case-slider-viewport', slider);
+    const buttons = $$('[data-slider-direction]', slider);
+    const updateControls = () => {
+      const max = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+      buttons.forEach(button => {
+        const direction = Number(button.dataset.sliderDirection);
+        button.disabled = direction < 0 ? viewport.scrollLeft <= 2 : viewport.scrollLeft >= max - 2;
+      });
+    };
+    buttons.forEach(button => button.addEventListener('click', () => {
+      const direction = Number(button.dataset.sliderDirection);
+      viewport.scrollBy({ left: direction * viewport.clientWidth, behavior: motion.matches ? 'auto' : 'smooth' });
+      track('portfolio_slider', { direction: direction > 0 ? 'next' : 'previous' });
+    }));
+    viewport.addEventListener('scroll', updateControls, { passive: true });
+    viewport.addEventListener('keydown', event => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      viewport.scrollBy({ left: (event.key === 'ArrowRight' ? 1 : -1) * viewport.clientWidth, behavior: motion.matches ? 'auto' : 'smooth' });
+    });
+    addEventListener('resize', updateControls, { passive: true });
+    updateControls();
+  });
+
   // Content stays visible if JavaScript or motion support is unavailable.
   if ('IntersectionObserver' in window && !motion.matches) {
     document.documentElement.classList.add('js-motion');
